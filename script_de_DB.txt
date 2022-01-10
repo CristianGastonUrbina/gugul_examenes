@@ -1,0 +1,94 @@
+CREATE TABLE `examen` (
+   `id` INT AUTO_INCREMENT,
+   `nota` INT NOT NULL,
+   `id_usuario_creador` INT NOT NULL,
+   `fecha` DATE NOT NULL,
+   `titulo` VARCHAR(255) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `usuario` (
+   `id` INT AUTO_INCREMENT,
+   `nombre` VARCHAR(255) NOT NULL,
+   `apellido` VARCHAR(255) NOT NULL,
+   `mail` VARCHAR(255) NOT NULL,
+   `password` VARCHAR(255) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `pregunta_choice` (
+   `id` INT AUTO_INCREMENT,
+   `opcion A` VARCHAR(255) NOT NULL,
+   `opcion B` VARCHAR(255) NOT NULL,
+   `opcion C` VARCHAR(255) NOT NULL,
+   `opcion D` VARCHAR(255) NOT NULL,
+   `respuesta_correcta` CHAR NOT NULL,
+   `respuesta` CHAR NOT NULL,
+   `pregunta` VARCHAR(255) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `pregunta_libre` (
+   `id` INT AUTO_INCREMENT,
+   `respuesta_correcta` VARCHAR(255) NOT NULL,
+   `respuesta` VARCHAR(255) NOT NULL,
+   `pregunta` VARCHAR(255) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `pregunta_vf` (
+   `id` INT AUTO_INCREMENT,
+   `opcion A` VARCHAR(255) NOT NULL,
+   `opcion B` VARCHAR(255) NOT NULL,
+   `respuesta_correcta` CHAR NOT NULL,
+   `respuesta` CHAR NOT NULL,
+   `pregunta` VARCHAR(255) NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `examen_pregunta_libre` (
+   `id` INT,
+   `id_pregunta_libre` INT NOT NULL,
+   `id_examen` INT NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `exament_pregunta_vf` (
+   `id` INT AUTO_INCREMENT,
+   `id_pregunta_vf` INT NOT NULL,
+   `id_examen` INT NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `exament_pregunta_choice` (
+   `id` INT AUTO_INCREMENT,
+   `id_pregunta_choice` INT NOT NULL,
+   `id_examen` INT NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `usuario_examen` (
+   `id` INT,
+   `id_usuario` INT NOT NULL,
+   `id_examen` INT NOT NULL,
+   PRIMARY KEY (`id`)
+);
+
+
+ALTER TABLE `examen` ADD CONSTRAINT `FK_a279edfb-26d8-45a9-be3e-e4ada92d5b5c` FOREIGN KEY (`id_usuario_creador`) REFERENCES `usuario`(`id`)  ;
+
+ALTER TABLE `examen_pregunta_libre` ADD CONSTRAINT `FK_91a3d337-fa85-4c66-a511-feca90044aec` FOREIGN KEY (`id_pregunta_libre`) REFERENCES `pregunta_libre`(`id`)  ;
+
+ALTER TABLE `examen_pregunta_libre` ADD CONSTRAINT `FK_bcbd3972-4576-4c33-93a8-956231c422db` FOREIGN KEY (`id_examen`) REFERENCES `examen`(`id`)  ;
+
+ALTER TABLE `exament_pregunta_vf` ADD CONSTRAINT `FK_e899ef8e-f1f8-40cb-a18d-78dcfa61c5c9` FOREIGN KEY (`id_pregunta_vf`) REFERENCES `pregunta_vf`(`id`)  ;
+
+ALTER TABLE `exament_pregunta_vf` ADD CONSTRAINT `FK_6a76b770-d6fc-4c22-a761-ef062dcec115` FOREIGN KEY (`id_examen`) REFERENCES `examen`(`id`)  ;
+
+ALTER TABLE `exament_pregunta_choice` ADD CONSTRAINT `FK_271b4b9b-0337-41b8-9890-fa373e09a5b4` FOREIGN KEY (`id_pregunta_choice`) REFERENCES `pregunta_choice`(`id`)  ;
+
+ALTER TABLE `exament_pregunta_choice` ADD CONSTRAINT `FK_8d988347-b616-4634-803e-0fbc4e0252a0` FOREIGN KEY (`id_examen`) REFERENCES `examen`(`id`)  ;
+
+ALTER TABLE `usuario_examen` ADD CONSTRAINT `FK_9b312fd5-4e7c-4a8b-b80d-0ad3d787156a` FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id`)  ;
+
+ALTER TABLE `usuario_examen` ADD CONSTRAINT `FK_5378426d-504b-4d25-8beb-9b9561a07d37` FOREIGN KEY (`id_examen`) REFERENCES `examen`(`id`)  ;
